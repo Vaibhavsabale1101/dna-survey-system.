@@ -41,11 +41,22 @@ function formatRow(row) {
 
 export async function getVillages(req, res, next) {
   try {
+    // const [rows] = await pool.query(
+    //   `SELECT village_code, village_name, taluka, district, state 
+    //    FROM villages 
+    //    ORDER BY CAST(SUBSTRING(village_code, 3) AS UNSIGNED), village_code`
+    // );
     const [rows] = await pool.query(
-      `SELECT village_code, village_name, taluka, district, state 
-       FROM villages 
-       ORDER BY CAST(SUBSTRING(village_code, 3) AS UNSIGNED), village_code`
-    );
+  `SELECT
+      village_code,
+      village_name,
+      HEX(village_name) AS village_name_hex,
+      taluka,
+      district,
+      state
+   FROM villages
+   ORDER BY CAST(SUBSTRING(village_code, 3) AS UNSIGNED), village_code`
+);
 
     return res.status(200).json({
       ok: true,
