@@ -1,0 +1,71 @@
+:root{--navy:#183d59;--blue:#2474a2;--teal:#168479;--gold:#e3aa32;--bg:#f3f6f8;--ink:#263842;--muted:#687b86;--line:#d7e1e6;--red:#b43b3b;--green:#2f7953;--white:#fff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nirmala UI","Mukta","Segoe UI",sans-serif;line-height:1.45}.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}.side{background:linear-gradient(180deg,var(--navy),#102d42);color:#fff;padding:22px 15px;position:sticky;top:0;height:100vh}.brand{font-size:21px;font-weight:800}.brand small{display:block;color:#bdd0dc;font-size:12px;font-weight:400;margin-top:4px}.side button{display:block;width:100%;border:0;background:transparent;color:#dce8ee;text-align:left;padding:10px 11px;border-radius:8px;margin-top:7px;cursor:pointer}.side button.on,.side button:hover{background:#ffffff18;color:#fff}.side .count{margin-top:25px;border-top:1px solid #ffffff26;padding-top:15px;color:#bcd0dc;font-size:13px}.side .count b{display:block;color:#fff;font-size:28px}.main{padding:25px 32px 80px;max-width:1440px}.head{display:flex;justify-content:space-between;gap:15px;margin-bottom:17px}.head h1{margin:0;color:var(--navy);font-size:27px}.head p{margin:4px 0;color:var(--muted)}#saveState{font-size:12px;color:var(--green);white-space:nowrap}.card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 2px 9px #183d5908}.card.sec{border-left:5px solid var(--teal)}h2{margin:0 0 3px;color:var(--navy);font-size:18px}h2 small{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}.help{font-size:13px;color:var(--muted);margin:0 0 13px}.notice{padding:10px 12px;background:#fff5d9;border:1px solid #eed28c;border-radius:8px;color:#6b5217;font-size:13px;margin-bottom:15px}.grid{display:grid;gap:11px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}label{font-size:12.5px;color:var(--muted);font-weight:650;display:block}label.req:after{content:" *";color:var(--red)}input,select,textarea{width:100%;min-height:37px;border:1px solid #bdccd4;border-radius:7px;padding:7px 9px;margin-top:4px;background:white;font:inherit;color:var(--ink);font-size:14px}textarea{min-height:76px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:var(--teal);outline:3px solid #1684791f}.q{padding:11px 0;border-bottom:1px dashed var(--line)}.q:last-child{border-bottom:0}.qt{font-size:14px;font-weight:700;margin-bottom:7px}.options{display:flex;flex-wrap:wrap;gap:8px 17px}.options label,.tick{display:flex;gap:6px;align-items:flex-start;color:var(--ink);font-size:14px;font-weight:400}.options input,.tick input{width:auto;min-height:auto;margin:3px 0 0;accent-color:var(--teal)}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:9px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}th{background:#edf3f6;color:var(--navy);white-space:nowrap}td input,td select{margin:0;min-width:85px;padding:5px 7px}.occ{display:grid;grid-template-columns:minmax(230px,1fr) 120px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line)}.occ:last-child{border:0}.actions{display:flex;gap:9px;flex-wrap:wrap;position:sticky;bottom:0;background:#f3f6f8ed;padding:12px 0;backdrop-filter:blur(5px)}.btn{border:1px solid #b9c8d0;border-radius:8px;background:#fff;color:var(--navy);padding:8px 13px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}.btn:hover{border-color:var(--blue)}.btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}.btn.danger{color:var(--red)}.btn.sm{padding:4px 8px;font-size:12px}.record{display:grid;grid-template-columns:1fr auto;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.record:last-child{border:0}.record small{color:var(--muted)}.empty{text-align:center;color:var(--muted);padding:25px}.search{max-width:320px}.hide{display:none!important}
+@media(max-width:900px){.app{display:block}.side{position:static;height:auto}.side nav{display:flex;overflow:auto}.side button{white-space:nowrap}.side .count{display:none}.main{padding:18px 13px 65px}.g2,.g3,.g4{grid-template-columns:1fr}.head{display:block}#saveState{display:block;margin-top:7px}.occ{grid-template-columns:1fr 95px}.tablewrap{margin:0 -7px}}
+@media print{body{background:#fff}.side,.actions,.noprint,#records{display:none!important}.app{display:block}.main{padding:0;max-width:none}.card{box-shadow:none;break-inside:avoid}.head h1{font-size:22px}}
+
+/* Automatic TAI screening result in Forms A-D */
+.screening-keep,
+.screening-drop {
+  font-weight: 800;
+  text-align: center;
+  cursor: default;
+}
+.screening-keep { background: #eefbf5; }
+.screening-drop { background: #fff3f1; }
+
+/* Form F automatic source compilation */
+.source-picker {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.source-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 12px;
+  border: 1px solid #cbdbe5;
+  border-radius: 10px;
+  background: #f8fbfd;
+  cursor: pointer;
+  font-weight: 600;
+}
+.source-option input { width: auto; min-width: 18px; height: 18px; }
+.source-option span { flex: 1; }
+.source-option b {
+  min-width: 28px;
+  text-align: center;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: #e7f5f2;
+  color: #0f6e63;
+}
+@media (max-width: 1050px) {
+  .source-picker { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
+}
+@media (max-width: 620px) {
+  .source-picker { grid-template-columns: 1fr; }
+}
+
+
+/* Checkbox controls: keep native click area and prevent generic input/table sizing from stretching them. */
+input[type="checkbox"] {
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  min-height: 18px;
+  padding: 0;
+  margin: 2px 6px 0 0;
+  cursor: pointer;
+  accent-color: var(--teal);
+  vertical-align: middle;
+}
+td input[type="checkbox"] {
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  min-height: 18px;
+  margin: 0 auto;
+  display: block;
+}
+.radios label, .source-option { cursor: pointer; }

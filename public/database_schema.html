@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DNA Survey Database Schema - Accurate MySQL Layout</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f172a;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #334155;
+      padding: 30px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 1350px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+      color: #f8fafc;
+    }
+    .header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .header p {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    .canvas-container {
+      position: relative;
+      width: 1280px;
+      height: 760px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    /* SVG connector canvas */
+    .connectors-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Table Cards */
+    .table-card {
+      position: absolute;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+      border: 1px solid #cbd5e1;
+      width: 370px;
+      z-index: 2;
+      overflow: hidden;
+      font-size: 11.5px;
+    }
+
+    .table-header {
+      padding: 9px 14px;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+    }
+
+    .th-blue { background: #2563eb; }
+    .th-cyan { background: #0284c7; }
+    .th-teal { background: #0f766e; }
+    .th-purple { background: #7c3aed; }
+    .th-amber { background: #d97706; }
+    .th-rose { background: #e11d48; }
+
+    .table-tag {
+      font-size: 10px;
+      background: rgba(255,255,255,0.22);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .col-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 12px;
+      border-bottom: 1px solid #f1f5f9;
+      line-height: 1.35;
+    }
+    .col-row:nth-child(even) { background: #f8fafc; }
+    .col-row:last-child { border-bottom: none; }
+
+    .col-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge {
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 1.5px 4.5px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .badge-pk { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .badge-fk { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+
+    .col-name {
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .col-type {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 10.5px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    /* Highlighting specific columns */
+    .col-highlight {
+      background: #fff1f2 !important;
+    }
+    .col-highlight .col-name { color: #be123c; }
+
+    .legend-bar {
+      margin-top: 15px;
+      display: flex;
+      gap: 20px;
+      color: #94a3b8;
+      font-size: 12px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-chip {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      DNA Survey System — MySQL Database Layout & Accurate Attributes
+    </h1>
+    <p>Sant Gadge Baba Unnat Gram Yojana · Smart Village Project · Vaibhavwadi, Sindhudurg (21 Villages)</p>
+  </div>
+
+  <div class="canvas-container">
+    <!-- SVG Connector Lines -->
+    <svg class="connectors-svg" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="#38bdf8"/>
+        </marker>
+        <marker id="arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="#0d9488"/>
+        </marker>
+        <marker id="arrow-rose" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="#e11d48"/>
+        </marker>
+        <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="#a855f7"/>
+        </marker>
+      </defs>
+
+      <!-- villages -> survey_records -->
+      <path d="M 370 120 L 450 120" stroke="#38bdf8" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+      <text x="410" y="112" fill="#38bdf8" font-size="10" font-weight="700" text-anchor="middle">1 : N</text>
+
+      <!-- survey_records -> tai_screenings -->
+      <path d="M 830 120 L 890 120" stroke="#0d9488" stroke-width="2.5" fill="none" marker-end="url(#arrow-teal)"/>
+      <text x="860" y="112" fill="#0d9488" font-size="10" font-weight="700" text-anchor="middle">1 : N</text>
+
+      <!-- survey_records -> form_e_stops -->
+      <path d="M 640 370 L 640 420" stroke="#a855f7" stroke-width="2.5" fill="none" marker-end="url(#arrow-purple)"/>
+      <text x="660" y="398" fill="#a855f7" font-size="10" font-weight="700">1 : 16</text>
+
+      <!-- form_e_stops -> survey_images -->
+      <path d="M 450 560 L 390 560" stroke="#e11d48" stroke-width="2.5" fill="none" marker-end="url(#arrow-rose)"/>
+      <text x="420" y="552" fill="#e11d48" font-size="10" font-weight="700" text-anchor="middle">1 : N</text>
+
+      <!-- problem_catalog -> tai_screenings -->
+      <path d="M 1075 420 L 1075 350" stroke="#f59e0b" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+      <text x="1095" y="390" fill="#f59e0b" font-size="10" font-weight="700">1 : N</text>
+    </svg>
+
+    <!-- 1. TABLE: villages -->
+    <div class="table-card" style="left: 25px; top: 35px; width: 345px;">
+      <div class="table-header th-cyan">
+        <span>villages</span>
+        <span class="table-tag">Master · 21 Villages</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-pk">PK</span><span class="col-name">village_code</span></div>
+        <span class="col-type">VARCHAR(10)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">village_name</span></div>
+        <span class="col-type">VARCHAR(100)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">taluka</span></div>
+        <span class="col-type">VARCHAR(50)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">district</span></div>
+        <span class="col-type">VARCHAR(50)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">state</span></div>
+        <span class="col-type">VARCHAR(50)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">created_at</span></div>
+        <span class="col-type">TIMESTAMP</span>
+      </div>
+    </div>
+
+    <!-- 2. TABLE: survey_records (Core) -->
+    <div class="table-card" style="left: 450px; top: 35px; width: 380px;">
+      <div class="table-header th-blue">
+        <span>survey_records</span>
+        <span class="table-tag">Forms 0, A, B, C, D, E, F</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-pk">PK</span><span class="col-name">id</span></div>
+        <span class="col-type">VARCHAR(64)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">form_key</span></div>
+        <span class="col-type">ENUM('form0'..'formF')</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-fk">FK</span><span class="col-name">village_code</span></div>
+        <span class="col-type">VARCHAR(10)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">village_name</span></div>
+        <span class="col-type">VARCHAR(100)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">interviewer</span></div>
+        <span class="col-type">VARCHAR(100)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">survey_date</span></div>
+        <span class="col-type">DATE</span>
+      </div>
+      <div class="col-row" style="background:#fefce8;">
+        <div class="col-left"><span class="col-name" style="color:#854d0e;">data_json</span></div>
+        <span class="col-type" style="color:#a16207; font-weight:700;">JSON (Full responses)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">created_at</span></div>
+        <span class="col-type">TIMESTAMP</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">updated_at</span></div>
+        <span class="col-type">TIMESTAMP</span>
+      </div>
+    </div>
+
+    <!-- 3. TABLE: tai_screenings (Forms A-D) -->
+    <div class="table-card" style="left: 890px; top: 35px; width: 365px;">
+      <div class="table-header th-teal">
+        <span>tai_screenings</span>
+        <span class="table-tag">Forms A–D Scoring</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-pk">PK</span><span class="col-name">id</span></div>
+        <span class="col-type">INT AUTO_INCREMENT</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-fk">FK</span><span class="col-name">record_id</span></div>
+        <span class="col-type">VARCHAR(64)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-fk">FK</span><span class="col-name">village_code</span></div>
+        <span class="col-type">VARCHAR(10)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-fk">FK</span><span class="col-name">p_code</span></div>
+        <span class="col-type">VARCHAR(10)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">long_term (>1 yr)</span></div>
+        <span class="col-type">BOOLEAN</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">often (frequent)</span></div>
+        <span class="col-type">BOOLEAN</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">many (many people)</span></div>
+        <span class="col-type">BOOLEAN</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">real_loss</span></div>
+        <span class="col-type">BOOLEAN</span>
+      </div>
+      <div class="col-row" style="background:#f0fdf4;">
+        <div class="col-left"><span class="col-name" style="color:#166534; font-weight:700;">keep_drop</span></div>
+        <span class="col-type" style="color:#15803d; font-weight:700;">ENUM('Keep','Drop')</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">tech_type</span></div>
+        <span class="col-type">VARCHAR(50)</span>
+      </div>
+    </div>
+
+    <!-- 4. TABLE: survey_images (IMAGE HANDLING) -->
+    <div class="table-card" style="left: 25px; top: 420px; width: 365px;">
+      <div class="table-header th-rose">
+        <span>survey_images</span>
+        <span class="table-tag">Photos &amp; Proofs</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-pk">PK</span><span class="col-name">id</span></div>
+        <span class="col-type">INT AUTO_INCREMENT</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-fk">FK</span><span class="col-name">record_id</span></div>
+        <span class="col-type">VARCHAR(64)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-fk">FK</span><span class="col-name">village_code</span></div>
+        <span class="col-type">VARCHAR(10)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">stop_id</span></div>
+        <span class="col-type">VARCHAR(10) (e.g. 'E1')</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">caption</span></div>
+        <span class="col-type">VARCHAR(255)</span>
+      </div>
+      <!-- Method A -->
+      <div class="col-row col-highlight">
+        <div class="col-left"><span class="col-name">file_path [Method A]</span></div>
+        <span class="col-type" style="color:#be123c; font-weight:700;">VARCHAR(500)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">file_size_kb</span></div>
+        <span class="col-type">INT</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">mime_type</span></div>
+        <span class="col-type">VARCHAR(50) (e.g. image/jpeg)</span>
+      </div>
+      <!-- Method B -->
+      <div class="col-row col-highlight">
+        <div class="col-left"><span class="col-name">image_data [Method B]</span></div>
+        <span class="col-type" style="color:#be123c; font-weight:700;">MEDIUMBLOB (16MB)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">uploaded_at</span></div>
+        <span class="col-type">TIMESTAMP</span>
+      </div>
+    </div>
+
+    <!-- 5. TABLE: form_e_stops (Form E 16 Stops) -->
+    <div class="table-card" style="left: 450px; top: 420px; width: 380px;">
+      <div class="table-header th-purple">
+        <span>form_e_stops</span>
+        <span class="table-tag">Form E Walk Stops (E1-E16)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-pk">PK</span><span class="col-name">id</span></div>
+        <span class="col-type">INT AUTO_INCREMENT</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-fk">FK</span><span class="col-name">record_id</span></div>
+        <span class="col-type">VARCHAR(64)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-fk">FK</span><span class="col-name">village_code</span></div>
+        <span class="col-type">VARCHAR(10)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">stop_id</span></div>
+        <span class="col-type">VARCHAR(10) ('E1'..'E16')</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">place_name</span></div>
+        <span class="col-type">VARCHAR(255)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">look_for</span></div>
+        <span class="col-type">TEXT</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">actual_seen</span></div>
+        <span class="col-type">TEXT (Surveyor notes)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">gps_coordinates</span></div>
+        <span class="col-type">VARCHAR(100) (Lat, Long)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">photo_ref</span></div>
+        <span class="col-type">VARCHAR(255)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-fk">FK</span><span class="col-name">p_code</span></div>
+        <span class="col-type">VARCHAR(10)</span>
+      </div>
+    </div>
+
+    <!-- 6. TABLE: problem_catalog (Master P01 - P28) -->
+    <div class="table-card" style="left: 890px; top: 420px; width: 365px;">
+      <div class="table-header th-amber">
+        <span>problem_catalog</span>
+        <span class="table-tag">Master · P01 to P28</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="badge badge-pk">PK</span><span class="col-name">code</span></div>
+        <span class="col-type">VARCHAR(10)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">problem_en</span></div>
+        <span class="col-type">VARCHAR(255)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">problem_mr</span></div>
+        <span class="col-type">VARCHAR(255) (Marathi)</span>
+      </div>
+      <div class="col-row">
+        <div class="col-left"><span class="col-name">created_at</span></div>
+        <span class="col-type">TIMESTAMP</span>
+      </div>
+      <div class="col-row" style="background:#fffbeb; padding: 12px; color:#78350f; font-style:italic;">
+        Pre-populated with 28 standardized problems from pos.xlsx (P01: Drinking water, P06: Crop pest, P22: Roads, etc.)
+      </div>
+    </div>
+  </div>
+
+  <div class="legend-bar">
+    <div class="legend-item"><span class="badge badge-pk">PK</span> Primary Key</div>
+    <div class="legend-item"><span class="badge badge-fk">FK</span> Foreign Key (Relational link)</div>
+    <div class="legend-item"><div class="legend-chip" style="background:#be123c;"></div> Image Storage (Method A: file_path URL / Method B: image_data BLOB)</div>
+  </div>
+
+</body>
+</html>
