@@ -131,7 +131,7 @@ export function CommonHeader({ form, set, session, formNoLabel, hideGender = fal
           <input value={form.respondent || ''} onChange={(e) => setF('respondent', e.target.value)} />
         </Field>
         <Field label="Interviewer name · मुलाखतकार">
-          <input value={form.interviewer || session.interviewer || ''} onChange={(e) => setF('interviewer', e.target.value)} />
+          <input value={form.interviewer || ''} onChange={(e) => setF('interviewer', e.target.value)} />
         </Field>
         <Field label="Start time">
           <input type="time" value={form.startTime || ''} onChange={(e) => setF('startTime', e.target.value)} />

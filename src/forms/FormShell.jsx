@@ -42,7 +42,7 @@ export default function FormShell({
     taluka: session.taluka || 'Vaibhavwadi',
     district: session.district || 'Sindhudurg',
     respondent: '',
-    interviewer: session.interviewer || '',
+    interviewer: '',
     startTime: '',
     endTime: '',
     age: '',
@@ -85,7 +85,6 @@ export default function FormShell({
         village: villageMap[form.villageCode] || form.village,
         wadi: form.wadi || s.wadi,
         date: form.date || s.date,
-        interviewer: form.interviewer || s.interviewer,
         taluka: form.taluka || s.taluka,
         district: form.district || s.district,
       }));
